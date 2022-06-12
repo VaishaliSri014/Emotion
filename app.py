@@ -24,15 +24,15 @@ def index():
 
 @app.route('/choose_singer', methods=["POST"])
 def choose_singer():
-    info['language'] = request.form['language']
+    info['activity'] = request.form['activity']
     print(info)
-    return render_template('choose_singer.html', data=info['language'])
+    return render_template('choose_singer.html', data=info['activity'])
 
 
 @app.route('/emotion_detect', methods=["POST"])
 def emotion_detect():
 
-    info['Video'] = request.form['Video']
+    info['language'] = request.form['language']
     #info['Books'] = request.form['Books']
     #info['Music'] = request.form['Music']
     #info['Quotes'] = request.form['Quotes']
@@ -65,7 +65,7 @@ def emotion_detect():
     prediction = label_map[prediction]
 
     cap.release()
-    if (info['Video']=='Books'):
+    if (info['activity']=='Books'):
         #if (prediction == 'Fear'):
             link1 = f"https://www.goodreads.com/search?q={prediction}+books"
 
@@ -73,28 +73,29 @@ def emotion_detect():
 
             return render_template("emotion_detect.html", data=prediction, link=link1)
 
-    elif (info['Video']=='Video'):
-      link2 = f"https://www.youtube.com/results?search_query={info['Video']}+{prediction}+{info['language']}+song"
+    elif (info['activity']=='Video'):
+      link2 = f"https://www.youtube.com/results?search_query={info['activity']}+{prediction}+{info['language']}+song"
+      # link2 = f"https://www.youtube.com/results?search_query={info['Video']}+{prediction}+song"
 
       webbrowser.open(link2)
 
       return render_template("emotion_detect.html", data=prediction, link=link2)
 
-    elif (info['Video']=='Quotes'):
+    elif (info['activity']=='Quotes'):
       link3 = f"https://www.brainyquote.com/search_results?x=0&y=0&q={prediction}+quotes"
 
       webbrowser.open(link3)
 
       return render_template("emotion_detect.html", data=prediction, link=link3)
 
-    elif (info['Video']=='Music'):
+    elif (info['activity']=='Music'):
       link4 = f"https://open.spotify.com/search/{prediction}%20{info['language']}%20songs"
-
+      # link4 = f"https://open.spotify.com/search/{prediction}%20songs"
       webbrowser.open(link4)
 
       return render_template("emotion_detect.html", data=prediction, link=link4)
 
-    elif (info['Video']=='Games'):
+    elif (info['activity']=='Games'):
       link5 = f"https://poki.com/en/online"
 
       webbrowser.open(link5)
